@@ -12,7 +12,6 @@ import processing.core.PApplet;
 
 public class Sketch extends PApplet {
 
-    static int graphPointsAmount = 15;
     static int T = 100000;
 
     static boolean draw = true;
@@ -36,6 +35,7 @@ public class Sketch extends PApplet {
 
     ButtonFunctions btn = new ButtonFunctions();
     List<MyButton> buttonList = new ArrayList<>();
+    public static List<Perceptron> perceptrons = new ArrayList<>();
 
     static public void main(String args[]) {
         PApplet.main(new String[]{"Main.Sketch"});
@@ -68,6 +68,10 @@ public class Sketch extends PApplet {
             MyButton but = buttonList.get(i);
             but.setCoordinates(buttonsX, buttonsY + buttonsHeight * i, buttonsHeight, buttonsWidth);
             but.display();
+        }
+        
+        for (int i = 0; i<10; i++) {
+            perceptrons.add(new Perceptron(GRID_COLS * GRID_ROWS));
         }
 
     }
@@ -114,11 +118,10 @@ public class Sketch extends PApplet {
             int a = (int) key - 48;
             System.out.println(a);
             btn.clear();
-            double[][] tmpGrid = ImageManager.loadImage(a);
+            float[][] tmpGrid = ImageManager.loadImage(a);
             
             for (int i = 0; i < tmpGrid.length; i++) {
                 for (int j = 0; j < tmpGrid[0].length; j++){
-                    System.out.println((int)tmpGrid[i][j]);
                     grid1[i][j].active = (int)tmpGrid[i][j];
                     grid1[i][j].display();
                 }

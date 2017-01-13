@@ -42,17 +42,16 @@ public class ImageManager {
         }
     }
 
-    static public List<double[][]> loadImages() {
-        List<double[][]> gridList = new ArrayList<>();
+    static public List<float[][]> loadImages() {
+        List<float[][]> gridList = new ArrayList<>();
         File folder = new File("img");
         for (File img : folder.listFiles()) {
-
             try {
-                double[][] grid = new double[40][40];
+                float[][] grid = new float[Sketch.GRID_COLS][Sketch.GRID_ROWS];
                 BufferedImage bufferedImage = ImageIO.read(img);
-                for (int i = 0; i < bufferedImage.getHeight(); i++) {
-                    for (int j = 0; j < bufferedImage.getWidth(); j++) {
-                        double a = bufferedImage.getRGB(i, j);
+                for (int i = 0; i < bufferedImage.getWidth(); i++) {
+                    for (int j = 0; j < bufferedImage.getHeight(); j++) {
+                        float a = (float)bufferedImage.getRGB(i, j);
                         a = a == -1 ? 1 : -1;
                         grid[i][j] = a;
                     }
@@ -67,8 +66,8 @@ public class ImageManager {
         return gridList;
     }
 
-    static public double[][] loadImage(int x) {
-        double[][] image = new double[Sketch.GRID_COLS][Sketch.GRID_ROWS];
+    static public float[][] loadImage(int x) {
+        float[][] image = new float[Sketch.GRID_COLS][Sketch.GRID_ROWS];
 //        System.out.println(x);
         File folder = new File("img");
         File[] files = folder.listFiles();
@@ -83,7 +82,7 @@ public class ImageManager {
             BufferedImage bfImg = ImageIO.read(file);
             for (int i = 0; i < bfImg.getWidth(); i++) {
                 for (int j = 0; j < bfImg.getHeight(); j++) {
-                    double a = bfImg.getRGB(i, j);
+                    float a = (float)bfImg.getRGB(i, j);
                     a = a == -1 ? 1 : -1;
                     image[i][j] = a;
                 }

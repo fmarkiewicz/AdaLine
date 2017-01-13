@@ -5,6 +5,8 @@
  */
 package Main;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -15,6 +17,37 @@ public class ButtonFunctions {
 
     public void learn() {
         System.out.println("uczy");
+        Random rand = new Random();
+        List<float[][]> examples = new ArrayList<>();
+        examples = ImageManager.loadImages();
+        List<Example> vectorExamplesDFT = new ArrayList<>();
+        
+        // konwersja na vector z przeliczeniem transformaty fouriera
+        for (float[][] example : examples ) {
+            vectorExamplesDFT.add(new Example(Calculations.computeDft(Calculations.matrixToVector(example))));
+        }
+        
+        
+        float learnConst = 0.0001f;
+        
+        // iteracja po 10 perceptronach
+        for (int i = 0; i < Sketch.perceptrons.size(); i++) {
+            
+            // podzial na dobre i zle przyklady dla danego perceptronu
+            for (int j = 0; j < vectorExamplesDFT.size(); j++) {
+                if (j%3 == i) {
+                    vectorExamplesDFT.get(j).setGoodOrBad(1);
+                } else {
+                    vectorExamplesDFT.get(j).setGoodOrBad(-1);
+                }
+            }
+            
+            for (int j = 0; j < Sketch.T; j++) {
+                Example currentExample = vectorExamplesDFT.get(rand.nextInt(vectorExamplesDFT.size()));
+                
+            }
+            
+        }
     }
 
     public void answer() {
