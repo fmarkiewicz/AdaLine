@@ -27,14 +27,10 @@ public class Sketch extends PApplet {
     static final int GRID_COLS = 5;
     static final int GRID_ROWS = 6;
 
-    static final int GRID2_X = CELL_SIZE * GRID_COLS;
-    static final int GRID2_Y = CELL_SIZE * GRID_ROWS;
-
     static Cell[][] grid1 = new Cell[GRID_COLS][GRID_ROWS];
-    static Cell[][] grid2 = new Cell[GRID_COLS][GRID_ROWS];
-
+    
     ButtonFunctions btn = new ButtonFunctions();
-    List<MyButton> buttonList = new ArrayList<>();
+    public static List<MyButton> buttonList = new ArrayList<>();
     public static List<Perceptron> perceptrons = new ArrayList<>();
 
     static public void main(String args[]) {
@@ -49,10 +45,8 @@ public class Sketch extends PApplet {
             for (int j = 0; j < GRID_ROWS; j++) {
 
                 grid1[i][j] = new Cell(GRID1_X + i * CELL_SIZE, GRID1_Y + j * CELL_SIZE, CELL_SIZE, CELL_SIZE, 128, this);
-                grid2[i][j] = new Cell(GRID2_X + i * CELL_SIZE, GRID2_Y + j * CELL_SIZE, CELL_SIZE, CELL_SIZE, 128, this);
 
                 grid1[i][j].display();
-                grid2[i][j].display();
             }
         }
 
@@ -63,6 +57,7 @@ public class Sketch extends PApplet {
         buttonList.add(new MyButton("erease", this));
         buttonList.add(new MyButton("printInput", this));
         buttonList.add(new MyButton("saveImg", this));
+        buttonList.add(new MyButton("", this));
 
         for (int i = 0; i < buttonList.size(); i++) {
             MyButton but = buttonList.get(i);
@@ -84,7 +79,7 @@ public class Sketch extends PApplet {
 
     @Override
     public void draw() {
-
+        buttonList.get(7).displayVal();
     }
 
     @Override

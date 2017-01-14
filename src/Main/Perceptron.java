@@ -25,7 +25,6 @@ public class Perceptron {
         
         for (int i = 0; i<numOfWeights; i++) {
             tmpWeights[i] = ((float)rand.nextInt(20000000) - 10000000)/10000000;
-            System.out.println(tmpWeights[i]);
         }
         
         this.weights = tmpWeights;

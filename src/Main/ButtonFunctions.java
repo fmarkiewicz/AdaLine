@@ -16,8 +16,6 @@ import java.util.Random;
 public class ButtonFunctions {
 
     public void learn() {
-        System.out.println("uczy");
-        
         float learnConst = 0.0001f;
         
         Random rand = new Random();
@@ -32,18 +30,18 @@ public class ButtonFunctions {
 
         // iteracja po 10 perceptronach
         for (int i = 0; i < Sketch.perceptrons.size(); i++) {
-            
+
             // podzial na dobre i zle przyklady dla danego perceptronu
             int it = 0;
-            for (int j = 0; j < vectorExamplesDFT.size(); j+=3) {
-                if (it==i) {
+            for (int j = 0; j < vectorExamplesDFT.size(); j += 3) {
+                if (it == i) {
                     vectorExamplesDFT.get(j).setGoodOrBad(1);
-                    vectorExamplesDFT.get(j+1).setGoodOrBad(1);
-                    vectorExamplesDFT.get(j+2).setGoodOrBad(1);
+                    vectorExamplesDFT.get(j + 1).setGoodOrBad(1);
+                    vectorExamplesDFT.get(j + 2).setGoodOrBad(1);
                 } else {
                     vectorExamplesDFT.get(j).setGoodOrBad(-1);
-                    vectorExamplesDFT.get(j+1).setGoodOrBad(-1);
-                    vectorExamplesDFT.get(j+2).setGoodOrBad(-1);
+                    vectorExamplesDFT.get(j + 1).setGoodOrBad(-1);
+                    vectorExamplesDFT.get(j + 2).setGoodOrBad(-1);
                 }
                 it++;
             }
@@ -65,26 +63,29 @@ public class ButtonFunctions {
 
             }
         }
-        System.out.println("skonczyl uczyc");
+
+        Sketch.buttonList.get(7).setVal("learned");
     }
 
     public void answer() {
-        System.out.println("odpowiedz");
+        Sketch.buttonList.get(7).setVal("");
+        boolean found = false;
         float[] input = Calculations.computeDft(Calculations.matrixToVector(Sketch.grid1));
         for (int i = 0; i < Sketch.perceptrons.size(); i++) {
             float sum = 0;
-            for (int j = 0; j<input.length; j++){
+            for (int j = 0; j < input.length; j++) {
                 sum += Sketch.perceptrons.get(i).weights[j] * input[j];
             }
-            
-            if (sum >= 0){
-                System.out.println("perceptron: " + i);
+
+            if (sum >= 0) {
+                found = true;
+                Sketch.buttonList.get(7).setVal("Ans: " + Integer.toString(i));
             }
+            if(found)break;
         }
     }
 
     public void clear() {
-        System.out.println("czysci");
         for (int i = 0; i < Sketch.grid1.length; i++) {
             for (int j = 0; j < Sketch.grid1[0].length; j++) {
                 Sketch.grid1[i][j].setInactive();
