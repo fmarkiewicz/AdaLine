@@ -10,6 +10,11 @@ package Main;
  * @author Hayab_000
  */
 public class Calculations {
+//------------------------------------------------------------------------------
+//    public static int activation(float in) {
+//        return 
+//    }
+   
 
 //------------------------------------------------------------------------------    
     public static boolean isOverRec(int x, int y, int width, int height, int mouseX, int mouseY) {
@@ -30,6 +35,20 @@ public class Calculations {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
                 vector[it] = matrix[i][j];
+                it++;
+            }
+        }
+
+        return vector;
+    }
+//------------------------------------------------------------------------------
+    public static float[] matrixToVector(Cell[][] matrix) {
+        float[] vector = new float[matrix.length * matrix[0].length];
+        int it = 0;
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                vector[it] = (float)matrix[i][j].active;
                 it++;
             }
         }

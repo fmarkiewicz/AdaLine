@@ -69,13 +69,13 @@ public class Printer {
 
     }
 
-    static void printVector(double[] vector) {
+    static void printVector(float[] vector) {
         System.out.println("Print Vector as Matrix");
         for (int i = 0; i < vector.length; i++) {
-            if (i % 40 == 0 && i != 0) {
+            if (i % 5 == 0 && i != 0) {
                 System.out.println("");
             }
-            System.out.print(vector[i]);
+            System.out.print(vector[i] + "  ");
         }
         System.out.println("");
         System.out.println("------------------------------------------");

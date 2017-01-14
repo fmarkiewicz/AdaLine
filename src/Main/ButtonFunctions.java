@@ -17,41 +17,70 @@ public class ButtonFunctions {
 
     public void learn() {
         System.out.println("uczy");
+        
+        float learnConst = 0.0001f;
+        
         Random rand = new Random();
         List<float[][]> examples = new ArrayList<>();
         examples = ImageManager.loadImages();
         List<Example> vectorExamplesDFT = new ArrayList<>();
-        
+
         // konwersja na vector z przeliczeniem transformaty fouriera
-        for (float[][] example : examples ) {
+        for (float[][] example : examples) {
             vectorExamplesDFT.add(new Example(Calculations.computeDft(Calculations.matrixToVector(example))));
         }
-        
-        
-        float learnConst = 0.0001f;
-        
+
         // iteracja po 10 perceptronach
         for (int i = 0; i < Sketch.perceptrons.size(); i++) {
             
             // podzial na dobre i zle przyklady dla danego perceptronu
-            for (int j = 0; j < vectorExamplesDFT.size(); j++) {
-                if (j%3 == i) {
+            int it = 0;
+            for (int j = 0; j < vectorExamplesDFT.size(); j+=3) {
+                if (it==i) {
                     vectorExamplesDFT.get(j).setGoodOrBad(1);
+                    vectorExamplesDFT.get(j+1).setGoodOrBad(1);
+                    vectorExamplesDFT.get(j+2).setGoodOrBad(1);
                 } else {
                     vectorExamplesDFT.get(j).setGoodOrBad(-1);
+                    vectorExamplesDFT.get(j+1).setGoodOrBad(-1);
+                    vectorExamplesDFT.get(j+2).setGoodOrBad(-1);
                 }
+                it++;
             }
-            
+
             for (int j = 0; j < Sketch.T; j++) {
+                //losowanie przykladu
                 Example currentExample = vectorExamplesDFT.get(rand.nextInt(vectorExamplesDFT.size()));
-                
+                //liczenie sumy
+                float sum = 0;
+                for (int k = 0; k < currentExample.input.length; k++) {
+                    sum += Sketch.perceptrons.get(i).weights[k] * currentExample.input[k];
+                }
+
+                //poprawianie wag
+                for (int k = 0; k < Sketch.perceptrons.get(i).weights.length; k++) {
+                    Sketch.perceptrons.get(i).weights[k] = Sketch.perceptrons.get(i).weights[k]
+                            + learnConst * ((float) currentExample.goodOrBad - sum) * currentExample.input[k];
+                }
+
             }
-            
         }
+        System.out.println("skonczyl uczyc");
     }
 
     public void answer() {
         System.out.println("odpowiedz");
+        float[] input = Calculations.computeDft(Calculations.matrixToVector(Sketch.grid1));
+        for (int i = 0; i < Sketch.perceptrons.size(); i++) {
+            float sum = 0;
+            for (int j = 0; j<input.length; j++){
+                sum += Sketch.perceptrons.get(i).weights[j] * input[j];
+            }
+            
+            if (sum >= 0){
+                System.out.println("perceptron: " + i);
+            }
+        }
     }
 
     public void clear() {

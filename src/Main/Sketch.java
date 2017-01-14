@@ -12,7 +12,7 @@ import processing.core.PApplet;
 
 public class Sketch extends PApplet {
 
-    static int T = 100000;
+    static int T = 1000000;
 
     static boolean draw = true;
 
