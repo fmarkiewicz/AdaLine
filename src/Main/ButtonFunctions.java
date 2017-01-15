@@ -6,7 +6,10 @@
 package Main;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -17,7 +20,7 @@ public class ButtonFunctions {
 
     public void learn() {
         float learnConst = 0.0001f;
-        
+
         Random rand = new Random();
         List<float[][]> examples = new ArrayList<>();
         examples = ImageManager.loadImages();
@@ -69,6 +72,7 @@ public class ButtonFunctions {
 
     public void answer() {
         Sketch.buttonList.get(7).setVal("");
+        HashMap<Integer, Float> map = new HashMap<>();
         boolean found = false;
         float[] input = Calculations.computeDft(Calculations.matrixToVector(Sketch.grid1));
         for (int i = 0; i < Sketch.perceptrons.size(); i++) {
@@ -78,14 +82,22 @@ public class ButtonFunctions {
             }
 
             if (sum >= 0) {
-                found = true;
-                Sketch.buttonList.get(7).setVal("Ans: " + Integer.toString(i));
+                map.put(i, sum);
+//                found = true;
+//                Sketch.buttonList.get(7).setVal("Ans: " + Integer.toString(i));
             }
-            if(found)break;
+//            if(found)break;
+        }
+        if (!map.isEmpty()) {
+            int key = Collections.max(map.entrySet(), Map.Entry.comparingByValue()).getKey();
+            Sketch.buttonList.get(7).setVal("Ans: " + key);
+        } else {
+            Sketch.buttonList.get(7).setVal("Ans: -1");
         }
     }
 
     public void clear() {
+        Sketch.buttonList.get(7).setVal("");
         for (int i = 0; i < Sketch.grid1.length; i++) {
             for (int j = 0; j < Sketch.grid1[0].length; j++) {
                 Sketch.grid1[i][j].setInactive();
