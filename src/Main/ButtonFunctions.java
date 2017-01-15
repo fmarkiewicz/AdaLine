@@ -63,8 +63,9 @@ public class ButtonFunctions {
                     Sketch.perceptrons.get(i).weights[k] = Sketch.perceptrons.get(i).weights[k]
                             + learnConst * ((float) currentExample.goodOrBad - sum) * currentExample.input[k];
                 }
-
+                
             }
+            
         }
 
         Sketch.buttonList.get(7).setVal("learned");
@@ -73,21 +74,20 @@ public class ButtonFunctions {
     public void answer() {
         Sketch.buttonList.get(7).setVal("");
         HashMap<Integer, Float> map = new HashMap<>();
-        boolean found = false;
+        // liczenie fouriera z wejscia
         float[] input = Calculations.computeDft(Calculations.matrixToVector(Sketch.grid1));
         for (int i = 0; i < Sketch.perceptrons.size(); i++) {
             float sum = 0;
             for (int j = 0; j < input.length; j++) {
                 sum += Sketch.perceptrons.get(i).weights[j] * input[j];
             }
-
+            // jesli suma wieksza od zera to dodaj rozpoznany nr do mapy
             if (sum >= 0) {
                 map.put(i, sum);
-//                found = true;
-//                Sketch.buttonList.get(7).setVal("Ans: " + Integer.toString(i));
             }
-//            if(found)break;
+
         }
+        //jesli cos rozpoznal to wydrukuj to co ma najwieksza sume, jesli nie to -1
         if (!map.isEmpty()) {
             int key = Collections.max(map.entrySet(), Map.Entry.comparingByValue()).getKey();
             Sketch.buttonList.get(7).setVal("Ans: " + key);
